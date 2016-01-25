@@ -26,18 +26,35 @@ namespace Snake
             
             //Отрисовка точки
             Point p = new Point(4,5,'*');
-            Snake snake = new Snake( p, 8, Direction.RIGHT);
+            Snake snake = new Snake( p, 1, Direction.RIGHT);
             snake.Drow();
-            
+
+            FoodCreator foodCreator = new FoodCreator(118, 29, '$');
+            Point food = foodCreator.CreateFood();
+            food.Draw();
+
             while(true)
             {
+                if (snake.Eat( food ) )
+                {
+
+                    food = foodCreator.CreateFood();
+                    food.Draw();
+                }
+                else
+                {
+                    snake.Move();
+                }
+
+                Thread.Sleep(90);
+
                 if(Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey();
                     snake.Handlekey(key.Key);
                 }
-                Thread.Sleep(100);
-                snake.Move();
+                
+                
             }
 
         }
